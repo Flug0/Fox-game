@@ -1,0 +1,6 @@
+
+
+# Window settings
+WIDTH, HEIGHT = 720, 720
+FPS = 10
+BACKGROUND_COLOR = (255, 255, 255)
