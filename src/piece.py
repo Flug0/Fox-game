@@ -23,5 +23,7 @@ class Hen(Piece):
         super().__init__(row, col)
         self.type = "Hen"
 
-    def allowed_move(self, board):
-        pass
+class Empty(Piece):
+    def __init__(self, row, col):
+        super().__init__(row, col)
+        self.type = "Empty"
