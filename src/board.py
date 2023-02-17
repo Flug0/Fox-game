@@ -70,8 +70,8 @@ class Board():
         self.neighbor_matrix[row][col].append((col+1, row+1, 3))
 
         self.neighbor_matrix[row-1][col-1].append((col, row, 3))
-        self.neighbor_matrix[row+1][col-1].append((col, row, 5))
-        self.neighbor_matrix[row-1][col+1].append((col, row, 1))
+        self.neighbor_matrix[row+1][col-1].append((col, row, 1))
+        self.neighbor_matrix[row-1][col+1].append((col, row, 5))
         self.neighbor_matrix[row+1][col+1].append((col, row, 7))
     
     def move_piece(self, col, row, col2, row2):
@@ -91,3 +91,14 @@ class Board():
         if row == -1 or col == -1:
             return Empty(-1,-1)
         return self.slots[row][col]
+
+    def get_hens_in_nest(self):
+        count = 0
+        for i in range(3):
+            if isinstance(self.slots[-3][i+2], Hen):
+                count += 1
+        for i in range(2):
+            for j in range(3):
+                if isinstance(self.slots[-1-i][j+2], Hen):
+                    count += 1
+        return(count)

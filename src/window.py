@@ -12,8 +12,9 @@ class Window():
         self.clock = pygame.time.Clock()
         self.positions = self.calculate_positions(board)
         self.selected = None
-        self.selected_pos = (-1, -1)
+        self.selected_pos = (2, 0)
         self.direction = -1
+        self.pos_dict = self.convert_cords_to_position()
 
     def calculate_positions(self, board):
         # List with lists of all xpos and list with all ypos
@@ -34,6 +35,9 @@ class Window():
                 pos_list.append((x, ypos_list[i]))
         return pos_list
     
+    def convert_cords_to_position(self):
+        return {(2,0):0, (3,0):1, (4,0):2, (2,1):3, (3,1):4, (4,1):5, (0,2):6, (1,2):7, (2,2):8, (3,2):9, (4,2):10, (5,2):11, (6,2):12, (0,3):13, (1,3):14, (2,3):15, (3,3):16, (4,3):17, (5,3):18, (6,3):19, (0,4):20, (1,4):21, (2,4):22, (3,4):23, (4,4):24, (5,4):25, (6,4):26, (2,5):27, (3,5):28, (4,5):29, (2,6):30, (3,6):31, (4,6):32}
+
     def get_position(self, pos):
         return self.positions[pos]
 
@@ -45,8 +49,8 @@ class Window():
         for pos in self.positions:
             pygame.draw.circle(self.win, (0,0,0), pos, 15)
         # Highlight selected
-        if self.selected is not None:
-            pygame.draw.circle(self.win, (101,255,0), self.get_position(self.selected), 25)
+        if self.selected is None:
+            pygame.draw.circle(self.win, (101,255,0), self.get_position(self.pos_dict[self.selected_pos]), 25)
         # Draw pieces
         current_pos = 0
         for row in board.slots:
@@ -91,106 +95,41 @@ class Window():
 
             if event.type == pygame.KEYDOWN:
                 print("PRESS")
+                
+                if event.key == pygame.K_LEFT:
+                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
+                        if self.selected_pos[0] == 2:
+                            return
+                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
+                        if self.selected_pos[0] == 0:
+                            return
+                    self.selected_pos = (self.selected_pos[0]-1, self.selected_pos[1])
 
-                if event.key == pygame.K_q:
-                    self.selected = 0
-                    self.selected_pos = (2,0)
-                elif event.key == pygame.K_w:
-                    self.selected = 1
-                    self.selected_pos = (3,0)
-                elif event.key == pygame.K_e:
-                    self.selected = 2
-                    self.selected_pos = (4,0)
-                elif event.key == pygame.K_r:
-                    self.selected = 3
-                    self.selected_pos = (2,1)
-                elif event.key == pygame.K_t:
-                    self.selected = 4
-                    self.selected_pos = (3,1)
-                elif event.key == pygame.K_y:
-                    self.selected = 5
-                    self.selected_pos = (4,1)
-                elif event.key == pygame.K_u:
-                    self.selected = 6
-                    self.selected_pos = (0,2)
-                elif event.key == pygame.K_i:
-                    self.selected = 7
-                    self.selected_pos = (1,2)
-                elif event.key == pygame.K_o:
-                    self.selected = 8
-                    self.selected_pos = (2,2)
-                elif event.key == pygame.K_p:
-                    self.selected = 9
-                    self.selected_pos = (3,2)
-                elif event.key == pygame.K_a:
-                    self.selected = 10
-                    self.selected_pos = (4,2)
-                elif event.key == pygame.K_s:
-                    self.selected = 11
-                    self.selected_pos = (5,2)
-                elif event.key == pygame.K_d:
-                    self.selected = 12
-                    self.selected_pos = (6,2)
-                elif event.key == pygame.K_f:
-                    self.selected = 13
-                    self.selected_pos = (0,3)
-                elif event.key == pygame.K_g:
-                    self.selected = 14
-                    self.selected_pos = (1,3)
-                elif event.key == pygame.K_h:
-                    self.selected = 15
-                    self.selected_pos = (2,3)
-                elif event.key == pygame.K_j:
-                    self.selected = 16
-                    self.selected_pos = (3,3)
-                elif event.key == pygame.K_k:
-                    self.selected = 17
-                    self.selected_pos = (4,3)
-                elif event.key == pygame.K_l:
-                    self.selected = 18
-                    self.selected_pos = (5,3)
-                elif event.key == pygame.K_z:
-                    self.selected = 19
-                    self.selected_pos = (6,3)
-                elif event.key == pygame.K_x:
-                    self.selected = 20
-                    self.selected_pos = (0,4)
-                elif event.key == pygame.K_c:
-                    self.selected = 21
-                    self.selected_pos = (1,4)
-                elif event.key == pygame.K_v:
-                    self.selected = 22
-                    self.selected_pos = (2,4)
-                elif event.key == pygame.K_b:
-                    self.selected = 23
-                    self.selected_pos = (3,4)
-                elif event.key == pygame.K_n:
-                    self.selected = 24
-                    self.selected_pos = (4,4)
-                elif event.key == pygame.K_m:
-                    self.selected = 25
-                    self.selected_pos = (5,4)
-                elif event.key == pygame.K_LEFT:
-                    self.selected = 26
-                    self.selected_pos = (6,4)
-                elif event.key == pygame.K_UP:
-                    self.selected = 27
-                    self.selected_pos = (2,5)
-                elif event.key == pygame.K_DOWN:
-                    self.selected = 28
-                    self.selected_pos = (3,5)
                 elif event.key == pygame.K_RIGHT:
-                    self.selected = 29
-                    self.selected_pos = (4,5)
-                elif event.key == pygame.K_9:
-                    self.selected = 30
-                    self.selected_pos = (2,6)
-                elif event.key == pygame.K_0:
-                    self.selected = 31
-                    self.selected_pos = (3,6)
-                elif event.key == pygame.K_PLUS:
-                    self.selected = 32
-                    self.selected_pos = (4,6)
+                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
+                        if self.selected_pos[0] == 4:
+                            return
+                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
+                        if self.selected_pos[0] == 6:
+                            return
+                    self.selected_pos = (self.selected_pos[0]+1, self.selected_pos[1])
+                elif event.key == pygame.K_UP:
+                    if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
+                        if self.selected_pos[1] == 2:
+                            return
+                    elif self.selected_pos[0] >= 2 or self.selected_pos[0] <= 4:
+                        if self.selected_pos[1] == 0:
+                            return
+                    self.selected_pos = (self.selected_pos[0], self.selected_pos[1]-1)
+                elif event.key == pygame.K_DOWN:
+                    if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
+                        if self.selected_pos[1] == 4:
+                            return
+                    elif self.selected_pos[0] >= 2 or self.selected_pos[0] <= 4:
+                        if self.selected_pos[1] == 6:
+                            return
+                    self.selected_pos = (self.selected_pos[0], self.selected_pos[1]+1)
+
                 elif event.key == pygame.K_1:
                     self.direction = 0
                 elif event.key == pygame.K_2:
