@@ -8,6 +8,7 @@ class Game():
         self.win = Window(self.board)
         self.hens = 20
         self.foxes = 2
+        self.foxs_turn = False
         #self.board.slots[0][2] = Fox(0, 2)
         print(self.board.neighbor_matrix)
     
@@ -21,10 +22,18 @@ class Game():
         endX, endY = self.next_pos(self.win.selected_pos, self.win.direction)
         # Move one slot
         if (endX, endY, self.win.direction) in self.board.neighbor_matrix[startY][startX]:
+            if self.foxs_turn and isinstance(self.board.get_slot(self.win.selected_pos[1], self.win.selected_pos[0]), Fox):
+                self.foxs_turn = False
+            elif not self.foxs_turn and isinstance(self.board.get_slot(self.win.selected_pos[1], self.win.selected_pos[0]), Hen):
+                self.foxs_turn = True
+            else:
+                return False
             if self.board.move_piece(startX, startY, endX, endY):
                 return True
-        # Return if Hen
-        if self.board.get_slot(self.win.selected_pos[1], self.win.selected_pos[0]).type == "Hen":
+            else:
+                self.foxs_turn = not self.foxs_turn
+        # Return if Hen or not Fox's turn
+        if self.board.get_slot(self.win.selected_pos[1], self.win.selected_pos[0]).type == "Hen" or not self.foxs_turn:
             return False
         if endY > len(self.board.neighbor_matrix) -1:
             return False
@@ -38,6 +47,7 @@ class Game():
         if (doublejumpX, doublejumpY, self.win.direction) in self.board.neighbor_matrix[endY][endX]:
             if self.board.move_piece(startX, startY, doublejumpX, doublejumpY):
                 self.remove_piece(endX, endY)
+                self.foxs_turn = False
                 return True
         return False
     
@@ -68,10 +78,19 @@ class Game():
         elif self.board.slots[row][col].type == "Fox":
             self.foxes -= 1
         self.board.set_slot(row, col, Empty(row, col))
+    
+    def check_win(self):
+        if self.hens <= 0:
+            pass
+        elif self.foxes <= 0:
+            pass
+        elif self.board.get_hens_in_nest() == 9:
+            pass
 
     
     def run(self):
         while True:
             self.win.update(self.board)
             self.move_piece()
+            self.check_win()
             
