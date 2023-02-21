@@ -1,4 +1,4 @@
-from piece import *
+from src.piece import *
 
 class Board():
     def __init__(self):

@@ -1,5 +1,5 @@
 import pygame, math, sys
-from constants import WIDTH, HEIGHT, FPS, BACKGROUND_COLOR as BC
+from src.constants import WIDTH, HEIGHT, FPS, BACKGROUND_COLOR as BC
 
 
 class Window():
@@ -15,6 +15,7 @@ class Window():
         self.selected_pos = (2, 0)
         self.direction = -1
         self.pos_dict = self.convert_cords_to_position()
+        self.end_turn = False
 
     def calculate_positions(self, board):
         # List with lists of all xpos and list with all ypos
@@ -146,6 +147,10 @@ class Window():
                     self.direction = 6
                 elif event.key == pygame.K_8:
                     self.direction = 7
+                # Added Space as the key to indicate you are 'done' jumping.
+                # Does not work yet.
+                elif event.key == pygame.K_SPACE:
+                    self.end_turn = False
 
 
     def update(self, board):

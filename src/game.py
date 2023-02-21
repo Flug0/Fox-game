@@ -1,6 +1,6 @@
-from window import Window
-from board import Board
-from piece import *
+from src.window import Window
+from src.board import Board
+from src.piece import *
 
 class Game():
     def __init__(self):
@@ -9,6 +9,7 @@ class Game():
         self.hens = 20
         self.foxes = 2
         self.foxs_turn = False
+        self.more_jumps = False
         #self.board.slots[0][2] = Fox(0, 2)
         print(self.board.neighbor_matrix)
     
@@ -47,7 +48,13 @@ class Game():
         if (doublejumpX, doublejumpY, self.win.direction) in self.board.neighbor_matrix[endY][endX]:
             if self.board.move_piece(startX, startY, doublejumpX, doublejumpY):
                 self.remove_piece(endX, endY)
-                self.foxs_turn = False
+                # Try to see if it is possible to double jump again
+                newX, newY = self.more_double_jumps(doublejumpX, doublejumpY)
+                if self.win.end_turn or not self.more_jumps:
+                    self.foxs_turn = False
+                    self.win.end_turn = False
+                else:
+                    self.more_double_jumps(newX, newY)
                 return True
         return False
     
@@ -80,11 +87,14 @@ class Game():
         self.board.set_slot(row, col, Empty(row, col))
     
     def check_win(self):
-        if self.hens <= 0:
+        if self.hens <= 8:
+            print("Foxes won")
             pass
         elif self.foxes <= 0:
+            print("Hens won")
             pass
         elif self.board.get_hens_in_nest() == 9:
+            print("Hens won")
             pass
 
     
@@ -93,4 +103,25 @@ class Game():
             self.win.update(self.board)
             self.move_piece()
             self.check_win()
+    """
+    Tries too look in all directions from starting position to see if it is possible to double jump again.
+    E.g. The neighbour square contains a 'Hen' and the one beyond is 'Empty'
+    If it is, then set the global variable 'self.win.more_jumps = True', to indicate that it is still the foxes turn
+    If it is not possible, then set the variable to False.
+    """
+    def more_double_jumps(self, startX, startY):
+        for i in range(0, 9):
+            endX, endY = self.next_pos((startX, startY), i)
+            if (endX, endY, i) in self.board.neighbor_matrix[startY][startX] and \
+                    self.board.slots[endY][endX].type == "Hen":
+                doublejumpX, doublejumpY = self.next_pos((endX, endY), i)
+                if (doublejumpX, doublejumpY, i) in self.board.neighbor_matrix[endY][endX] and \
+                        self.board.slots[doublejumpX][doublejumpY].type == "Empty":
+                    self.more_jumps = True
+                    self.foxs_turn = True
+                    return doublejumpX, doublejumpY
+        self.more_jumps = False
+        self.foxs_turn = False
+
+
             
