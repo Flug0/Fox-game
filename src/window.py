@@ -13,9 +13,11 @@ class Window():
         self.positions = self.calculate_positions(board)
         self.selected = None
         self.selected_pos = (2, 0)
+        self.selected_piece = None
         self.direction = -1
         self.pos_dict = self.convert_cords_to_position()
         self.end_turn = False
+
 
     def calculate_positions(self, board):
         # List with lists of all xpos and list with all ypos
@@ -105,6 +107,7 @@ class Window():
                         if self.selected_pos[0] == 0:
                             return
                     self.selected_pos = (self.selected_pos[0]-1, self.selected_pos[1])
+                    return 1
 
                 elif event.key == pygame.K_RIGHT:
                     if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
@@ -114,6 +117,7 @@ class Window():
                         if self.selected_pos[0] == 6:
                             return
                     self.selected_pos = (self.selected_pos[0]+1, self.selected_pos[1])
+                    return 1
                 elif event.key == pygame.K_UP:
                     if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
                         if self.selected_pos[1] == 2:
@@ -122,6 +126,7 @@ class Window():
                         if self.selected_pos[1] == 0:
                             return
                     self.selected_pos = (self.selected_pos[0], self.selected_pos[1]-1)
+                    return 1
                 elif event.key == pygame.K_DOWN:
                     if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
                         if self.selected_pos[1] == 4:
@@ -130,6 +135,7 @@ class Window():
                         if self.selected_pos[1] == 6:
                             return
                     self.selected_pos = (self.selected_pos[0], self.selected_pos[1]+1)
+                    return 1
 
                 elif event.key == pygame.K_1:
                     self.direction = 0
@@ -147,6 +153,7 @@ class Window():
                     self.direction = 6
                 elif event.key == pygame.K_8:
                     self.direction = 7
+
                 # Added Space as the key to indicate you are 'done' jumping.
                 # Does not work yet.
                 elif event.key == pygame.K_SPACE:
@@ -156,10 +163,11 @@ class Window():
     def update(self, board):
         self.clock.tick(FPS)
         print("Tick")
-        self.get_input()
+        something_happened = self.get_input()
         self.win.fill(BC)
-        self.draw_board(board)
-        pygame.display.update()
+        if something_happened == 1 or self.selected_piece is None:
+            self.draw_board(board)
+            pygame.display.update()
             
 
 
@@ -169,6 +177,7 @@ class Window():
 if __name__ == "__main__":
     w = Window()
     clock = pygame.time.Clock()
+
     while True:
         clock.tick(FPS)
         w.update()
