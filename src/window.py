@@ -97,7 +97,7 @@ class Window():
                 sys.exit()
 
             if event.type == pygame.KEYDOWN:
-                print("PRESS")
+                #print("PRESS")
                 
                 if event.key == pygame.K_LEFT:
                     if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
@@ -162,7 +162,7 @@ class Window():
 
     def update(self, board):
         self.clock.tick(FPS)
-        print("Tick")
+        #print("Tick")
         something_happened = self.get_input()
         self.win.fill(BC)
         if something_happened == 1 or self.selected_piece is None:

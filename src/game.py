@@ -22,8 +22,8 @@ class Game():
 
         # Finds all the ways a move is invalid for both Hens and Foxes
         if (endX, endY, self.win.direction) not in self.board.neighbor_matrix[startY][startX] \
-                or endX > len(self.board.neighbor_matrix[endY]) - 1 \
-                or endY > len(self.board.neighbor_matrix) - 1 \
+                or 0 >= endX >= len(self.board.neighbor_matrix[endY]) -1 \
+                or 0 >= endY >= len(self.board.neighbor_matrix) -1 \
                 or self.selected_piece == "Empty" \
                 or self.selected_piece is None:
             return False
@@ -35,22 +35,28 @@ class Game():
         if self.foxs_turn:
             valid_move, newEndX, newEndY = self.valid_fox_move(endX, endY)
             if valid_move:
+                print("Valid fox move")
                 if self.board.move_piece(startX, startY, newEndX, newEndY):
+                    print("Moved piece")
                     if self.did_capture:
+                        print("Captured Hen")
                         self.remove_piece(endX, endY)
 
         # If it's Sheep's turn:
         # 1: Find if move is legal for Sheep's. If it is - step 2
         # 2: Try to move piece. If successful - end turn
         else:
-            if self.valid_sheep_move(endX, endY):
+            if self.valid_sheep_move(endY, endX):
                 if self.board.move_piece(startX, startY, endX, endY):
                     self.foxs_turn = True
 
     def check_double_jump(self, endY, endX, direction):
+
         doubleJumpX, doubleJumpY = self.next_pos((endX, endY), direction)
         if (doubleJumpX, doubleJumpY, direction) in self.board.neighbor_matrix[endY][endX] and \
-                self.board.slots[doubleJumpX][doubleJumpY].type == "Empty":
+                self.board.slots[doubleJumpY][doubleJumpX].type == "Empty" and \
+                0 <= doubleJumpX <= len(self.board.neighbor_matrix[doubleJumpY]) -1 and \
+                0 <= doubleJumpY <= len(self.board.neighbor_matrix) -1:
             self.did_capture = True
             return True, doubleJumpX, doubleJumpY
         self.did_capture = False
@@ -59,18 +65,18 @@ class Game():
 
     def valid_fox_move(self, endX, endY):
         if self.selected_piece == "Fox":
-            if self.board.get_slot(endY, endX).type == "Empty":
+            # Can only hop to an empty square if did not capture last turn
+            if self.board.get_slot(endY, endX).type == "Empty" and not self.did_capture:
                 self.foxs_turn = False
-                if self.did_capture is False:
-                    return True, endX, endY
-                else:
-                    self.did_capture = False
-                    return False, endX, endY
+                return True, endX, endY
+            elif self.board.get_slot(endY, endX).type == "Empty" and self.did_capture:
+                self.foxs_turn = False
+                return False, endX, endY
             elif self.board.get_slot(endY, endX).type == "Hen":
                 return self.check_double_jump(endY, endX, self.win.direction)
         return False, endX, endY
 
-    def valid_sheep_move(self, endX, endY):
+    def valid_sheep_move(self, endY, endX):
         if self.win.direction in [2, 3, 4, 5, 6] and self.board.get_slot(endY, endX).type == "Empty" \
                 and self.selected_piece == "Hen":
             return True

@@ -81,7 +81,7 @@ class Board():
         if not self.slots[row2][col2].type == "Empty":
             return False
         self.slots[row2][col2] = self.slots[row][col]
-        self.slots[row][col] = Empty(col, row)
+        self.slots[row][col] = Empty(row, col)
         return True
 
     def set_slot(self, row, col, piece):
