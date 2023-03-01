@@ -16,7 +16,6 @@ class Window():
         self.selected_piece = None
         self.direction = -1
         self.pos_dict = self.convert_cords_to_position()
-        self.end_turn = False
 
 
     def calculate_positions(self, board):
@@ -153,11 +152,6 @@ class Window():
                     self.direction = 6
                 elif event.key == pygame.K_8:
                     self.direction = 7
-
-                # Added Space as the key to indicate you are 'done' jumping.
-                # Does not work yet.
-                elif event.key == pygame.K_SPACE:
-                    self.end_turn = False
 
 
     def update(self, board):
