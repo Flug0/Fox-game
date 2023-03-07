@@ -1,32 +1,39 @@
+from look_ahead_ai.heuristics import Heuristics
 """
 maximizingPlayer: True = Sheep, False = Fox
 node: Not implemnted, but this is equal to the steps taken by the AI, steps forms a tree of "nodes" hence the name.
 depth: Hopefully we can calculate about 5 or 6 steps into the future at a given step.
 """
-class Lookahead_AI():
+class Minimax_algo():
     def __init__(self):
-        pass
+        self.heuristics = Heuristics()
 
-    def minmax(self, node, depth, maximizingPlayer):
+    def minimax(self, node, depth, alpha, beta, maximizingPlayer):
         if depth == 0:  # or node is a terminal node
-            return 0  # static ealuation of node
+            return self.heuristics.calculate_heuristic()  # static evaluation of node
         if maximizingPlayer:
             maxEvaluation = int('-inf')
             for child in node:
-                evaluation = self.minmax(child, depth - 1, False)
+                evaluation = self.minimax(child, depth - 1, alpha, beta, False)
                 maxEvaluation = max(maxEvaluation, evaluation)
+                alpha = max(alpha, evaluation)
+                if beta <= alpha:
+                    break
             return maxEvaluation
         else:
             minEvaluation = int('inf')
             for child in node:
-                evaluation = self.minmax(child, depth - 1, False)
+                evaluation = self.minimax(child, depth - 1, alpha, beta, False)
                 minEvaluation = min(minEvaluation, evaluation)
+                beta = min(beta, evaluation)
+                if beta <= alpha:
+                    break
             return minEvaluation
 
 
 if __name__ == "__main__":
-    lookahead_AI = Lookahead_AI()
-    lookahead_AI.minmax(node, 3, True)
+    lookahead_AI = Minimax_algo()
+    lookahead_AI.minimax(node, 3, int('-inf'), int('inf'), True)
 
 # TODO: Implement nodes
 # TODO: Have a point system eg: + 100 for winning, +10 for getting a sheep into the foxes starting position -10 for

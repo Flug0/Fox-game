@@ -22,8 +22,8 @@ class Game():
 
         # Finds all the ways a move is invalid for both Hens and Foxes
         if (endX, endY, self.win.direction) not in self.board.neighbor_matrix[startY][startX] \
+                or 0 >= endY >= len(self.board.neighbor_matrix) - 1 \
                 or 0 >= endX >= len(self.board.neighbor_matrix[endY]) -1 \
-                or 0 >= endY >= len(self.board.neighbor_matrix) -1 \
                 or self.selected_piece == "Empty" \
                 or self.selected_piece is None:
             return False
@@ -35,11 +35,11 @@ class Game():
         if self.foxs_turn:
             valid_move, newEndX, newEndY = self.valid_fox_move(endX, endY)
             if valid_move:
-                print("Valid fox move")
+                #print("Valid fox move")
                 if self.board.move_piece(startX, startY, newEndX, newEndY):
-                    print("Moved piece")
+                    #print("Moved piece")
                     if self.did_capture:
-                        print("Captured Hen")
+                        #print("Captured Hen")
                         self.remove_piece(endX, endY)
 
         # If it's Sheep's turn:
@@ -112,16 +112,17 @@ class Game():
     def check_win(self):
         if self.hens <= 8:
             print("Foxes won")
-            pass
+            return True, False
         elif self.foxes <= 0:
             print("Hens won")
-            pass
+            return False, True
         elif self.board.get_hens_in_nest() == 9:
             print("Hens won")
-            pass
+            return False, True
+        return False, False
 
     def run(self):
         while True:
             self.win.update(self.board)
             self.check_valid_moves()
-            self.check_win()
+            fox_won, sheep_won = self.check_win()
