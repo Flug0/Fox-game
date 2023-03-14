@@ -59,7 +59,7 @@ class Board():
         self.slots[y][x] = Fox(y,x)
         self.slots[y][x+1] = Empty(y,x+1)
         self.slots[y][x+2] = Fox(y,x+2)
-        print(self.slots)
+        #print(self.slots)
                 
 
     

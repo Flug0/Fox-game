@@ -1,4 +1,4 @@
-from src.game import Game
+import src.game
 
 """
 Maximising player = Sheep
@@ -8,7 +8,7 @@ Minimising player = Fox
 
 class Heuristics:
     def __init__(self):
-        self.game = Game()
+        self.game = src.game.Game()
         self.board = self.game.board
         self.points = 0
         self.calculate_heuristic()
