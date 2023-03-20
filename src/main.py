@@ -1,8 +1,10 @@
 from game import Game
+from game_loop import Run
 
 def main():
     game = Game()
-    game.run()
+    print("hejsan")
+    game_loop = Run(game)
 
 
 if __name__ == "__main__":

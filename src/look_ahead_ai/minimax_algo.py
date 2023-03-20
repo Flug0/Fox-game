@@ -1,6 +1,6 @@
-from look_ahead_ai.heuristics import Heuristics
-from look_ahead_ai.node import Node
-from src.board import Board
+from heuristics import Heuristics
+from node import Node
+from board import Board
 
 """
 Minimax algorithm with alpha-beta pruning.
@@ -19,8 +19,8 @@ Every node is a representation of the board at a given moment.
 #   if fox don't capture a piece in between.
 
 class Minimax_algo:
-    def __init__(self):
-        self.heuristics = Heuristics()
+    def __init__(self, game):
+        self.heuristics = Heuristics(game)
         self.points = self.heuristics.points
 
     def minimax(self, node, depth, alpha, beta, maximizingPlayer):

@@ -1,11 +1,9 @@
-import src.game
-
 
 class Node:
-    def __init__(self, board):
-        self.board = board
+    def __init__(self, game):
+        self.game = game
+        self.board = game.board
         self.children = []
-        self.game = src.game.Game()
         self.add_children()
         # self.move = None
 
@@ -16,6 +14,7 @@ class Node:
                     if 0 <= row <= len(self.board.neighbor_matrix) - 1 \
                             and 0 <= column <= len(self.board.neighbor_matrix[row]) - 1 \
                             and self.board.slots[row][column] is not None:
+                        print("Tried a move")
                         valid_move, newBoard = self.game.move_on_valid_move((row, column), direction)
                         if valid_move:
                             newNode = Node(newBoard)
