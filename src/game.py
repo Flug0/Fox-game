@@ -1,6 +1,6 @@
-from src.window import Window
-from src.board import Board
-from src.piece import *
+from window import Window
+from board import Board
+from piece import *
 from look_ahead_ai.minimax_algo import Minimax_algo
 from look_ahead_ai.node import Node
 

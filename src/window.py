@@ -1,5 +1,5 @@
 import pygame, math, sys
-from src.constants import WIDTH, HEIGHT, FPS, BACKGROUND_COLOR as BC
+from constants import WIDTH, HEIGHT, FPS, BACKGROUND_COLOR as BC
 
 
 class Window():
