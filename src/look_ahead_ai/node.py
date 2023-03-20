@@ -16,7 +16,8 @@ class Node:
                             and self.board.slots[row][column] is not None:
                         print("Tried a move")
                         valid_move, newBoard = self.game.move_on_valid_move((row, column), direction)
+                        self.game.board = newBoard
                         if valid_move:
-                            newNode = Node(newBoard)
+                            newNode = Node(self.game)
                             self.children.append(newNode)
                             # self.move = [(row, column), direction]

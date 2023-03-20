@@ -1,5 +1,5 @@
-from heuristics import Heuristics
-from node import Node
+from look_ahead_ai.heuristics import Heuristics
+from look_ahead_ai.node import Node
 from board import Board
 
 """
