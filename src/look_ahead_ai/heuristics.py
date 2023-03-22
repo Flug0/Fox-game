@@ -1,6 +1,6 @@
 import math
 """
-Maximising player = Sheep
+Maximising player = Hen
 Minimising player = Fox
 """
 
@@ -12,10 +12,12 @@ class Heuristics:
         self.calculate_heuristic()
 
     def calculate_heuristic(self):
+        self.points = 0
         self.winning_position()
         self.hens_alive()
         self.foxes_alive()
         self.hens_in_goal()
+        return self.points
 
     def winning_position(self):
         fox_won, sheep_won = self.game.check_win()
@@ -37,6 +39,8 @@ class Heuristics:
             self.points += 3
 
     def square_points(self):
-        for hen in range(self.game.hens):
-            self.points += hen.row
-            self.points += 7-math.abs(3-hen.col) # 3 is middle
+        # Adding point the further down the board a hen gets
+        # Don't really care about the foxes now, since they mainly care about catching chickens
+        for [row, column] in range(self.board.hens_position):
+            self.points += row
+            self.points += math.floor(abs(3.5-column)) # 3 is middle

@@ -3,7 +3,6 @@ from game_loop import Run
 
 def main():
     game = Game()
-    print("hejsan")
     game_loop = Run(game)
 
 

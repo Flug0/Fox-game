@@ -6,14 +6,21 @@ from piece import *
 class Game():
     def __init__(self):
         self.board = Board()
-        self.win = Window(self.board)
         self.hens = 20
         self.foxes = 2
         self.foxs_turn = False
         self.did_capture = False
         self.selected_piece = None
-        # self.board.slots[0][2] = Fox(0, 2)
-        #print(self.board.neighbor_matrix)
+
+    def copy(self):
+        newGame = Game()
+        newGame.board = Board(self.board)
+        newGame.hens = self.hens
+        newGame.foxes = self.foxes
+        newGame.foxs_turn = self.foxs_turn
+        newGame.did_capture = self.did_capture
+        newGame.selected_piece = self.selected_piece
+        return newGame
 
     def move_on_valid_move(self, position, direction):
         startX, startY = position
@@ -21,12 +28,12 @@ class Game():
         endX, endY = self.next_pos(position, direction)
 
         # Finds all the ways a move is invalid for both Hens and Foxes
-        if (endX, endY, self.win.direction) not in self.board.neighbor_matrix[startY][startX] \
+        if (endX, endY, direction) not in self.board.neighbor_matrix[startY][startX] \
                 or 0 >= endY >= len(self.board.neighbor_matrix) - 1 \
-                or 0 >= endX >= len(self.board.neighbor_matrix[endY]) -1 \
+                or 0 >= endX >= len(self.board.neighbor_matrix[endY]) - 1 \
                 or self.selected_piece == "Empty" \
                 or self.selected_piece is None:
-            return False, self.board
+            return False
 
         # If it's Fox's turn:
         # 1: Find if move is legal for foxes. If it is - step 2
@@ -35,13 +42,14 @@ class Game():
         if self.foxs_turn:
             valid_move, newEndX, newEndY = self.valid_fox_move(endX, endY, direction)
             if valid_move:
-                #print("Valid fox move")
+                # print("Valid fox move")
                 if self.board.move_piece(startX, startY, newEndX, newEndY):
-                    #print("Moved piece")
+                    # print("Moved piece")
                     if self.did_capture:
-                        #print("Captured Hen")
+                        # print("Captured Hen")
                         self.remove_piece(endX, endY)
-                    return True, self.board
+                    self.foxs_turn = False  # TODO: remove, handle jumps better
+                    return True
 
         # If it's Hen's turn:
         # 1: Find if move is legal for Hen's. If it is - step 2
@@ -50,15 +58,15 @@ class Game():
             if self.valid_hen_move(endY, endX, direction):
                 if self.board.move_piece(startX, startY, endX, endY):
                     self.foxs_turn = True
-                    return True, self.board
-        return False, self.board
+                    return True
+        return False
 
     def check_double_jump(self, endY, endX, direction):
         doubleJumpX, doubleJumpY = self.next_pos((endX, endY), direction)
         if (doubleJumpX, doubleJumpY, direction) in self.board.neighbor_matrix[endY][endX] and \
                 self.board.slots[doubleJumpY][doubleJumpX].type == "Empty" and \
-                0 <= doubleJumpX <= len(self.board.neighbor_matrix[doubleJumpY]) -1 and \
-                0 <= doubleJumpY <= len(self.board.neighbor_matrix) -1:
+                0 <= doubleJumpX <= len(self.board.neighbor_matrix[doubleJumpY]) - 1 and \
+                0 <= doubleJumpY <= len(self.board.neighbor_matrix) - 1:
             self.did_capture = True
             return True, doubleJumpX, doubleJumpY
         self.did_capture = False
@@ -124,5 +132,3 @@ class Game():
             print("Hens won")
             return False, True
         return False, False
-
-    

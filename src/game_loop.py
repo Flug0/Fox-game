@@ -1,26 +1,21 @@
-from look_ahead_ai.minimax_algo import Minimax_algo
-from look_ahead_ai.node import Node
+from look_ahead_ai.ai import AI
+from window import Window
+
 
 class Run:
-    def __init__(self, game) -> None:
+    def __init__(self, game):
         self.game = game
-        self.board = game.board
-        self.win = game.win
+        self.win = Window(self.game.board)
         self.run()
 
     def run(self):
-        minimax_class = Minimax_algo(self.game)
-        minInt = float("-inf")
-        maxInt = float("inf")
+        ai = AI()
         while True:
-            thisNode = Node(self.game)
-            self.win.update(self.board)
+            self.win.update(self.game.board)
             if not self.game.foxs_turn:
                 self.game.move_on_valid_move(self.win.selected_pos, self.win.direction)
             else:
-                _, newBoard = minimax_class.minimax(thisNode, 7, minInt, maxInt, True)
-                self.board = newBoard
-                print("Hen moved")
+                self.game = ai.get_best_move(3, self.game, self.win)
             fox_won, hen_won = self.game.check_win()
             if fox_won or hen_won:
                 break
