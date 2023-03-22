@@ -89,6 +89,7 @@ class Board():
     
     def move_piece(self, col, row, col2, row2):
         """Moves piece from one slot to another, if second slot not empty, return false"""
+        print("Moving piece from", row, col, "to", row2, col2)
         if self.slots[row2][col2] is None:
             return False
         if not self.slots[row2][col2].type == "Empty":
