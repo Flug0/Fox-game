@@ -27,16 +27,13 @@ class Heuristics:
             self.points = 1000
 
     def hens_alive(self):
-        for hen in range(self.game.hens):
-            self.points += 1
+        self.points += (1*self.game.hens)
 
     def foxes_alive(self):
-        for fox in range(self.game.foxes):
-            self.points -= 10
+        self.points -= (10*self.game.foxes)
 
     def hens_in_goal(self):
-        for hens_in_nest in range(self.board.get_hens_in_nest()):
-            self.points += 3
+        self.points += (3*self.board.get_hens_in_nest())
 
     def square_points(self):
         # Adding point the further down the board a hen gets
