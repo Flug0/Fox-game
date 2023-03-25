@@ -38,7 +38,7 @@ class Window():
         return pos_list
     
     def convert_cords_to_position(self):
-        return {(2,0):0, (3,0):1, (4,0):2, (2,1):3, (3,1):4, (4,1):5, (0,2):6, (1,2):7, (2,2):8, (3,2):9, (4,2):10, (5,2):11, (6,2):12, (0,3):13, (1,3):14, (2,3):15, (3,3):16, (4,3):17, (5,3):18, (6,3):19, (0,4):20, (1,4):21, (2,4):22, (3,4):23, (4,4):24, (5,4):25, (6,4):26, (2,5):27, (3,5):28, (4,5):29, (2,6):30, (3,6):31, (4,6):32}
+        return {(0,2):0, (0,3):1, (0,4):2, (1,2):3, (1,3):4, (1,4):5, (2,0):6, (2,1):7, (2,2):8, (2,3):9, (2,4):10, (2,5):11, (2,6):12, (3,0):13, (3,1):14, (3,2):15, (3,3):16, (3,4):17, (3,5):18, (3,6):19, (4,0):20, (4,1):21, (4,2):22, (4,3):23, (4,4):24, (4,5):25, (4,6):26, (5,2):27, (5,3):28, (5,4):29, (6,2):30, (6,3):31, (6,4):32}
 
     def get_position(self, pos):
         return self.positions[pos]
@@ -99,25 +99,6 @@ class Window():
                 #print("PRESS")
                 
                 if event.key == pygame.K_LEFT:
-                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
-                        if self.selected_pos[0] == 2:
-                            return
-                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
-                        if self.selected_pos[0] == 0:
-                            return
-                    self.selected_pos = (self.selected_pos[0]-1, self.selected_pos[1])
-                    return 1
-
-                elif event.key == pygame.K_RIGHT:
-                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
-                        if self.selected_pos[0] == 4:
-                            return
-                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
-                        if self.selected_pos[0] == 6:
-                            return
-                    self.selected_pos = (self.selected_pos[0]+1, self.selected_pos[1])
-                    return 1
-                elif event.key == pygame.K_UP:
                     if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
                         if self.selected_pos[1] == 2:
                             return
@@ -126,7 +107,8 @@ class Window():
                             return
                     self.selected_pos = (self.selected_pos[0], self.selected_pos[1]-1)
                     return 1
-                elif event.key == pygame.K_DOWN:
+
+                elif event.key == pygame.K_RIGHT:
                     if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
                         if self.selected_pos[1] == 4:
                             return
@@ -134,6 +116,24 @@ class Window():
                         if self.selected_pos[1] == 6:
                             return
                     self.selected_pos = (self.selected_pos[0], self.selected_pos[1]+1)
+                    return 1
+                elif event.key == pygame.K_UP:
+                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
+                        if self.selected_pos[0] == 2:
+                            return
+                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
+                        if self.selected_pos[0] == 0:
+                            return
+                    self.selected_pos = (self.selected_pos[0]-1, self.selected_pos[1])
+                    return 1
+                elif event.key == pygame.K_DOWN:
+                    if self.selected_pos[1] < 2 or self.selected_pos[1] > 4:
+                        if self.selected_pos[0] == 4:
+                            return
+                    elif self.selected_pos[1] >= 2 or self.selected_pos[1] <= 4:
+                        if self.selected_pos[0] == 6:
+                            return
+                    self.selected_pos = (self.selected_pos[0]+1, self.selected_pos[1])
                     return 1
 
                 elif event.key == pygame.K_1:
