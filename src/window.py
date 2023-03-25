@@ -97,7 +97,6 @@ class Window():
 
             if event.type == pygame.KEYDOWN:
                 #print("PRESS")
-                
                 if event.key == pygame.K_LEFT:
                     if self.selected_pos[0] < 2 or self.selected_pos[0] > 4:
                         if self.selected_pos[1] == 2:
@@ -136,21 +135,21 @@ class Window():
                     self.selected_pos = (self.selected_pos[0]+1, self.selected_pos[1])
                     return 1
 
-                elif event.key == pygame.K_1:
+                elif event.key == pygame.K_1 or event.key == pygame.K_KP8:
                     self.direction = 0
-                elif event.key == pygame.K_2:
+                elif event.key == pygame.K_2 or event.key == pygame.K_KP9:
                     self.direction = 1
-                elif event.key == pygame.K_3:
+                elif event.key == pygame.K_3 or event.key == pygame.K_KP6:
                     self.direction = 2
-                elif event.key == pygame.K_4:
+                elif event.key == pygame.K_4 or event.key == pygame.K_KP3:
                     self.direction = 3
-                elif event.key == pygame.K_5:
+                elif event.key == pygame.K_5 or event.key == pygame.K_KP2:
                     self.direction = 4
-                elif event.key == pygame.K_6:
+                elif event.key == pygame.K_6 or event.key == pygame.K_KP1:
                     self.direction = 5
-                elif event.key == pygame.K_7:
+                elif event.key == pygame.K_7 or event.key == pygame.K_KP4:
                     self.direction = 6
-                elif event.key == pygame.K_8:
+                elif event.key == pygame.K_8 or event.key == pygame.K_KP7:
                     self.direction = 7
 
 
