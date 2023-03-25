@@ -27,7 +27,7 @@ class Heuristics:
             self.points = 1000
 
     def hens_alive(self):
-        self.points += (1*self.game.hens)
+        self.points += (10*self.game.hens)
 
     def foxes_alive(self):
         self.points -= (10*self.game.foxes)

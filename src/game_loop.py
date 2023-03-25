@@ -19,7 +19,7 @@ class Run:
                     self.game.move(self.win.selected_pos, endPos)
             else:
                 t0 = time.time()
-                self.game = ai.get_best_move(3, self.game, self.win)
+                self.game = ai.get_best_move(4, self.game, self.win)
                 t1 = time.time()
                 print("AI time:", t1-t0)
             fox_won, hen_won = self.game.check_win()

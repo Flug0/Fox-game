@@ -79,7 +79,7 @@ class Game():
 
     def check_double_jump(self, endY, endX, direction):
         doubleJumpY, doubleJumpX = self.next_pos((endY, endX), direction)
-        if (doubleJumpY, doubleJumpX, direction) not in self.board.neighbor_matrix[endY][endX] and \
+        if (doubleJumpY, doubleJumpX, direction) in self.board.neighbor_matrix[endY][endX] and \
                 0 <= doubleJumpY < len(self.board.slots) and \
                 0 <= doubleJumpX < len(self.board.slots[doubleJumpY]) and \
                 self.board.slots[doubleJumpY][doubleJumpX] is not None and \
@@ -124,7 +124,7 @@ class Game():
         else:
             return -1, -1
 
-    def remove_piece(self, col, row):
+    def remove_piece(self, row, col):
         if self.board.slots[row][col].type == "Hen":
             self.hens -= 1
         elif self.board.slots[row][col].type == "Fox":
