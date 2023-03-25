@@ -94,6 +94,8 @@ class Board():
             return False
         if not self.slots[row2][col2].type == "Empty":
             return False
+        if self.slots[row][col].type == "Empty":
+            return False
         # To keep track of where the fox or hens move to
         # This is for Heuristics
         fromSquare = [row, col]
