@@ -12,7 +12,7 @@ class Window():
         self.clock = pygame.time.Clock()
         self.positions = self.calculate_positions(board)
         self.selected = None
-        self.selected_pos = (2, 0)
+        self.selected_pos = (0, 2)
         self.selected_piece = None
         self.direction = -1
         self.pos_dict = self.convert_cords_to_position()

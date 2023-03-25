@@ -28,22 +28,23 @@ class AI:
         node.add_children()
         bestEvaluation = self.minimax(node, depth, minInt, maxInt, win) # AI plays foxes
         for child in node.children:
-            print("Current child eval =", child.evaluation)
+            #print("Current child eval =", child.evaluation)
             if child.evaluation == bestEvaluation:
                 return child.game
+        raise Exception("No best move")
 
     def minimax(self, node, depth, alpha, beta, win):
-        win.update(node.game.board)
+        #win.update(node.game.board)
         if depth == 0:  # or node is a terminal node
             node.evaluation = Heuristics(node.game).points
-            print("Nodes final evaluation = {0}".format(node.evaluation))
+            #print("Nodes final evaluation = {0}".format(node.evaluation))
         elif node.game.foxs_turn: # Minimiser
             minEvaluation = float('inf')
             for child in node.children:
                 child.add_children()
                 evaluation = self.minimax(child, depth - 1, alpha, beta, win)
-                print("Foxes turn")
-                print("Current evaluation = {0}, depth = {1}".format(evaluation, depth))
+                #print("Foxes turn")
+                #print("Current evaluation = {0}, depth = {1}".format(evaluation, depth))
                 minEvaluation = min(minEvaluation, evaluation)
                 beta = min(beta, minEvaluation)
                 if beta <= alpha:
@@ -54,8 +55,8 @@ class AI:
             for child in node.children:
                 child.add_children()
                 evaluation = self.minimax(child, depth - 1, alpha, beta, win)
-                print("Hens turn")
-                print("Current evaluation = {0}, depth = {1}".format(evaluation, depth))
+                #print("Hens turn")
+                #print("Current evaluation = {0}, depth = {1}".format(evaluation, depth))
                 maxEvaluation = max(maxEvaluation, evaluation)
                 alpha = max(alpha, maxEvaluation)
                 if beta <= alpha:

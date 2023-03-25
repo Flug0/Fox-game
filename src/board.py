@@ -14,9 +14,11 @@ class Board():
             self.set_neighbor_matrix()
             self.set_initial_peices()
         else:
-            self.layout = board.layout.copy()
+            #self.layout = board.layout.copy()
+            self.layout = board.layout
             self.slots = copy.deepcopy(board.slots)
-            self.neighbor_matrix = copy.deepcopy(board.neighbor_matrix)
+            #self.neighbor_matrix = copy.deepcopy(board.neighbor_matrix)
+            self.neighbor_matrix = board.neighbor_matrix
             self.hens_position = board.hens_position.copy()
             self.foxs_position = board.foxs_position.copy()
 
@@ -26,16 +28,16 @@ class Board():
             for col in range(offset, self.layout[row] + offset):
                 # Set right/left neighbors
                 if col != offset:
-                    self.neighbor_matrix[row][col].append((col-1,row,6))
+                    self.neighbor_matrix[row][col].append((row, col-1, 6))
                 if col != self.layout[row]+offset-1:
-                    self.neighbor_matrix[row][col].append((col+1,row,2))
+                    self.neighbor_matrix[row][col].append((row, col+1, 2))
                 # Set up/down neighbors
                 if row != 0:
                     if not (row == 2 and (col < 2 or col > 4)):
-                        self.neighbor_matrix[row][col].append((col,row-1,0))
+                        self.neighbor_matrix[row][col].append((row-1, col, 0))
                 if row != len(self.layout)-1:
                     if not (row == 4 and (col < 2 or col > 4)):
-                        self.neighbor_matrix[row][col].append((col,row+1,4))
+                        self.neighbor_matrix[row][col].append((row+1, col, 4))
                 # Set diagonal neighbors
                 if col%2 == 1 and row%2 == 1:
                     self.__set_cross_neighbors(row, col)
@@ -45,7 +47,7 @@ class Board():
         for i in range(2):
             for j in range(3):
                 self.slots[y][x] = Hen(y, x)
-                self.hens_position.append([y,x])
+                self.hens_position.append([y, x])
                 x += 1
             y += 1
             x = 2
@@ -67,43 +69,38 @@ class Board():
             x += 1
         y += 1
         x = 2
-        self.slots[y][x] = Fox(y,x)
+        self.slots[y][x] = Fox(y, x)
         self.foxs_position.append([y, x])
-        self.slots[y][x+1] = Empty(y,x+1)
-        self.slots[y][x+2] = Fox(y,x+2)
+        self.slots[y][x+1] = Empty(y, x+1)
+        self.slots[y][x+2] = Fox(y, x+2)
         self.foxs_position.append([y, x+2])
         #print(self.slots)
-                
 
-    
     def __set_cross_neighbors(self, row, col):
-        self.neighbor_matrix[row][col].append((col-1, row-1, 7))
-        self.neighbor_matrix[row][col].append((col+1, row-1, 1))
-        self.neighbor_matrix[row][col].append((col-1, row+1, 5))
-        self.neighbor_matrix[row][col].append((col+1, row+1, 3))
+        self.neighbor_matrix[row][col].append((row-1, col-1, 7))
+        self.neighbor_matrix[row][col].append((row-1, col+1, 1))
+        self.neighbor_matrix[row][col].append((row+1, col-1, 5))
+        self.neighbor_matrix[row][col].append((row+1, col+1, 3))
 
-        self.neighbor_matrix[row-1][col-1].append((col, row, 3))
-        self.neighbor_matrix[row+1][col-1].append((col, row, 1))
-        self.neighbor_matrix[row-1][col+1].append((col, row, 5))
-        self.neighbor_matrix[row+1][col+1].append((col, row, 7))
+        self.neighbor_matrix[row-1][col-1].append((row, col, 3))
+        self.neighbor_matrix[row+1][col-1].append((row, col, 1))
+        self.neighbor_matrix[row-1][col+1].append((row, col, 5))
+        self.neighbor_matrix[row+1][col+1].append((row, col,7))
     
-    def move_piece(self, col, row, col2, row2):
+    def move_piece(self, row, col, row2, col2):
         """Moves piece from one slot to another, if second slot not empty, return false"""
-        print("Moving piece from", row, col, "to", row2, col2)
+        #print("Moving piece from", row, col, "to", row2, col2)
         if self.slots[row2][col2] is None:
             return False
         if not self.slots[row2][col2].type == "Empty":
             return False
         # To keep track of where the fox or hens move to
         # This is for Heuristics
-        fromSquare = [row, col]
-        toSquare = [row2, col2]
-        for hen in self.hens_position:
-            if hen == fromSquare:
-                hen = toSquare
-        for fox in self.foxs_position:
-            if fox == fromSquare:
-                fox = toSquare
+        fromType = self.slots[row][col].type
+        if fromType == "Fox":
+            self.foxs_position = [[row2, col2] if position == [row, col] else position for position in self.foxs_position]
+        elif fromType == "Hen":
+            self.hens_position = [[row2, col2] if position == [row, col] else position for position in self.hens_position]
         # This moves the pieces on the board
         self.slots[row][col].move(row2, col2)
         self.slots[row2][col2] = self.slots[row][col]
