@@ -142,3 +142,9 @@ class Game():
             print("Hens won")
             return False, True
         return False, False
+
+    def someone_has_won(self):
+        hen_win, fox_win = self.check_win()
+        if hen_win or fox_win:
+            return True
+        return False

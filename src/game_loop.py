@@ -19,9 +19,11 @@ class Run:
                     self.game.move(self.win.selected_pos, endPos)
             else:
                 t0 = time.time()
-                self.game = ai.get_best_move(4, self.game, self.win)
+                self.game, node_count = ai.get_best_move(4, self.game, False, True)
                 t1 = time.time()
-                print("AI time:", t1-t0)
+                print("-- AI has finished thinking --")
+                print("Amount of nodes looked through =", node_count)
+                print("Time for AI to think:", t1-t0)
             fox_won, hen_won = self.game.check_win()
             if fox_won or hen_won:
                 break
