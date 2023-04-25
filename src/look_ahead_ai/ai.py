@@ -51,11 +51,11 @@ class AI:
             else:
                 print("-- AI is thinking without pruning and in sequential --")
                 best_evaluation, count = self.minimax_no_pruning(node, depth, 0)
-
         for child in node.children:
             if child.evaluation == best_evaluation:
                 return child.game, count
-        raise Exception("No best move")
+        #raise Exception("No best move")
+        return game, count
 
     def minimax_with_alpha_beta_pruning(self, node, depth, alpha, beta, counter):
         if depth == 0 or node.game.someone_has_won():  # or node is a terminal node

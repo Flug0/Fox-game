@@ -123,6 +123,26 @@ class Game():
             return pos[0] - 1, pos[1] - 1
         else:
             return -1, -1
+    
+    def check_if_fox_trapped(self):
+        foxes_trapped = []
+        temp_turn = False
+        if not self.foxs_turn:
+            temp_turn = True
+            self.foxs_turn = True
+        for foxes in self.board.foxs_position:
+            kill = True
+            for direction in range(0,8):
+                if self.check_valid_move(foxes, direction)[0]:
+                    kill = False
+            if kill:
+                foxes_trapped.append(foxes)
+        for foxes in foxes_trapped:
+            self.remove_piece(foxes[0], foxes[1])
+            self.board.foxs_position.remove(foxes)
+        if temp_turn:
+            self.foxs_turn = False
+            
 
     def remove_piece(self, row, col):
         if self.board.slots[row][col].type == "Hen":
