@@ -57,6 +57,7 @@ class Game():
     def valid_hen_move(self, endY, endX, direction):
         if direction in [2, 3, 4, 5, 6] and self.board.get_slot(endY, endX).type == "Empty" \
                 and self.selected_piece == "Hen":
+            self.foxs_turn = True
             return True
         return False
 
@@ -65,11 +66,11 @@ class Game():
             jumpSlot = self.board.get_slot(endY, endX).type
             # Can only hop to an empty square if did not capture last turn
             if jumpSlot == "Empty" and not self.did_capture:
-                #self.foxs_turn = False
+                self.foxs_turn = False
                 return True, [endY, endX]
             # This is to stop the fox from jumping any more if does not try to capture another hen.
             elif jumpSlot == "Empty" and self.did_capture:
-                #self.foxs_turn = False
+                self.foxs_turn = False
                 self.did_capture = False
                 self.capturePos = None
                 return False, [endY, endX]
@@ -88,7 +89,7 @@ class Game():
             self.capturePos = [endY, endX]
             return True, [doubleJumpY, doubleJumpX]
         self.did_capture = False
-        #self.foxs_turn = False
+        self.foxs_turn = False
         self.capturePos = None
         return False, [endY, endX]
 
@@ -96,11 +97,8 @@ class Game():
         if self.board.move_piece(startPos[0], startPos[1], endPos[0], endPos[1]):
             #print("Moved a piece")
             if self.foxs_turn:
-                self.foxs_turn = False  # TODO: Remove and actually fix turns
                 if self.did_capture and self.capturePos:
                     self.remove_piece(self.capturePos[0], self.capturePos[1])
-            else:
-                self.foxs_turn = True
             return True
         return False
 

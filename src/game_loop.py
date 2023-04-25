@@ -12,7 +12,7 @@ class Run:
     def run(self):
         ai = AI()
         while True:
-            self.game.check_if_fox_trapped() # Check if fox is trapped
+            #self.game.check_if_fox_trapped() # Check if fox is trapped
             self.win.update(self.game.board)
             if not self.game.foxs_turn:
                 valid_move, endPos = self.game.check_valid_move(self.win.selected_pos, self.win.direction)
@@ -24,7 +24,7 @@ class Run:
                 if valid_move:
                     self.game.move(self.win.selected_pos, endPos)
                 #t0 = time.time()
-                #self.game, node_count = ai.get_best_move(1, self.game, False, True)
+                #self.game, node_count = ai.get_best_move(3, self.game, False, True)
                 #t1 = time.time()
                 #print("-- AI has finished thinking --")
                 #print("Amount of nodes looked through =", node_count)

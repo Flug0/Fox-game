@@ -28,7 +28,7 @@ class Heuristics:
             self.points = 10000
 
     def hens_alive(self):
-        self.points += (10*self.game.hens)
+        self.points += (1*self.game.hens)
 
     def foxes_alive(self):
         self.points -= (10*self.game.foxes)
@@ -41,4 +41,4 @@ class Heuristics:
         # Don't really care about the foxes now, since they mainly care about catching chickens
         for [row, column] in self.board.hens_position:
             self.points += row*3
-            #self.points += math.floor(abs(3.5-column)) # 3 is middle
+            self.points += math.floor(abs(3.5-column)) # 3 is middle
