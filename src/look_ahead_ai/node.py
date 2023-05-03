@@ -13,7 +13,7 @@ class Node:
         for [row, column] in pieceList:
             for direction in range(8):
                 valid_move, endPos = self.game.check_valid_move((row, column), direction)
-                if valid_move:
+                if valid_move and endPos:
                     child_game = self.game.copy()
                     child_game.move((row, column), endPos)
                     self.children.append(Node(child_game))

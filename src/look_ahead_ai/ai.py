@@ -1,6 +1,7 @@
 from look_ahead_ai.heuristics import Heuristics
 from look_ahead_ai.node import Node
 import multiprocessing as mp
+import operator
 from board import Board
 import math
 import time
@@ -15,10 +16,10 @@ Every node is a representation of the board at a given moment.
 """
 
 
-# TODO: Make it perform better, moving a step forward on the mirror side of middle is equal and don't have to be
+# TODO Make it perform better, moving a step forward on the mirror side of middle is equal and don't have to be
 #   calculated twice.
 
-# TODO: Also moving 1 step with one sheep, and then 1 step with another, might be the same as moving in opposite order,
+# TODO Also moving 1 step with one sheep, and then 1 step with another, might be the same as moving in opposite order,
 #   if fox don't capture a piece in between.
 
 class AI:
@@ -28,22 +29,33 @@ class AI:
         node = Node(game.copy())
         node.add_children()
         if with_parallel:
-            maxThreads = mp.cpu_count()
-            print("Max amount of threads:", maxThreads)
-            pool = mp.Pool(processes=len(node.children))
-            for child in node.children:
-                child.add_children()
-                if with_alpha_beta_pruning:
-                    print("-- AI is thinking using alpha-beta pruning and in parallel --")
-                    inputs = [(child, depth-1, minInt, maxInt, 0)]
-                    best_evaluations = pool.starmap(self.minimax_with_alpha_beta_pruning, inputs)
-                    print(best_evaluations)
-                else:
-                    print("-- AI is thinking without pruning but in parallel --")
-                    inputs = [(child, depth-1, 0)]
-                    best_evaluations = pool.starmap(self.minimax_no_pruning, inputs)
-                    print(best_evaluations)
-            best_evaluation = max(best_evaluations)
+            pool = mp.Pool()
+            # for child in node.children:
+            #    child.add_children()
+            if with_alpha_beta_pruning:
+                # TODO FIX So it works
+
+                print("-- AI is thinking using alpha-beta pruning and in parallel --")
+                #self.minimax_with_alpha_beta_pruning(node, 1, minInt, maxInt, 0)
+                inputs = [(child, depth-1, minInt, maxInt, 0) for child in node.children]
+                print("inputs:",inputs)
+                result = pool.starmap(self.minimax_with_alpha_beta_pruning, inputs)
+                pool.close()
+                pool.join()
+                print("result:", result)
+            else:
+                print("-- AI is thinking without pruning but in parallel --")
+                self.minimax_no_pruning(node, 1, 0)
+                inputs = [(child, depth-1, 0) for child in node.children]
+                result = pool.starmap(self.minimax_no_pruning, inputs)
+                pool.close()
+                pool.join()
+                print(result)
+            if game.foxs_turn:
+                best_evaluation, count = min(result, key=operator.itemgetter(0))
+            else:
+                best_evaluation, count = max(result, key=operator.itemgetter(0))
+            print(best_evaluation, count)
         else:
             if with_alpha_beta_pruning:
                 print("-- AI is thinking using alpha-beta pruning but sequential --")
@@ -52,7 +64,9 @@ class AI:
                 print("-- AI is thinking without pruning and in sequential --")
                 best_evaluation, count = self.minimax_no_pruning(node, depth, 0)
         for child in node.children:
+            print("child eval", child.evaluation)
             if child.evaluation == best_evaluation:
+                print("Found best eval")
                 return child.game, count
         #raise Exception("No best move")
         return game, count
