@@ -67,7 +67,7 @@ class AI:
             print("child eval", child.evaluation)
             if child.evaluation == best_evaluation:
                 print("Found best eval")
-                return child.game, count
+                return child.game, count, best_evaluation
         raise Exception("No best move")
         #return game, count
 

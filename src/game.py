@@ -102,6 +102,8 @@ class Game():
             if self.foxs_turn:
                 if self.did_capture and self.capturePos:
                     self.remove_piece(self.capturePos[0], self.capturePos[1])
+            else:
+                self.check_if_fox_trapped()
             self.foxs_turn = (self.next_players_turn == "Fox")
             return True
         return False
@@ -126,12 +128,10 @@ class Game():
         else:
             return -1, -1
     
-    def check_if_fox_trapped(self):
+    def check_if_fox_trapped(self, hens_turn=True):
         foxes_trapped = []
-        temp_turn = False
-        if not self.foxs_turn:
-            temp_turn = True
-            self.foxs_turn = True
+        self.foxs_turn = True
+        temp_next_turn = self.next_players_turn
         for foxes in self.board.foxs_position:
             kill = True
             for direction in range(0,8):
@@ -142,8 +142,8 @@ class Game():
         for foxes in foxes_trapped:
             self.remove_piece(foxes[0], foxes[1])
             self.board.foxs_position.remove(foxes)
-        if temp_turn:
-            self.foxs_turn = False
+        self.foxs_turn = False
+        self.next_players_turn = temp_next_turn
             
 
     def remove_piece(self, row, col):
