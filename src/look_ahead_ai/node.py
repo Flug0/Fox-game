@@ -17,4 +17,17 @@ class Node:
                     child_game = self.game.copy()
                     child_game.move((row, column), endPos)
                     self.children.append(Node(child_game))
+                #self.add_children_doublejump(self.game)
         #print("Amount of children:", len(self.children))
+
+
+    def add_children_doublejump(self, game):
+        if game.did_capture:
+            print("Double jump")
+            for direction in range(8):
+                valid_move, endPos = game.check_valid_move(game.capturePos, direction)
+                if valid_move and endPos:
+                    child_game = game.copy()
+                    child_game.move(game.capturePos, endPos)
+                    self.children.append(Node(child_game))
+                    self.add_children_doublejump(child_game)

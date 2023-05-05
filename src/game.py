@@ -73,6 +73,7 @@ class Game():
             # This is to stop the fox from jumping any more if does not try to capture another hen.
             elif jumpSlot == "Empty" and self.did_capture:
                 self.next_players_turn = "Hen"
+                #self.foxs_turn = False
                 self.did_capture = False
                 self.capturePos = None
                 return False, [endY, endX]

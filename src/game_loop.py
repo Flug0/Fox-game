@@ -25,7 +25,8 @@ class Run:
                 #if valid_move:
                 #    self.game.move(self.win.selected_pos, endPos)
                 #t0 = time.time()
-                self.game, node_count = ai.get_best_move(2, self.game, with_parallel=True, with_alpha_beta_pruning=True)
+                get_data(self.game, ai)
+                self.game, node_count = ai.get_best_move(2, self.game, with_parallel=False, with_alpha_beta_pruning=True)
                 #t1 = time.time()
                 #print("-- AI has finished thinking --")
                 #print("Amount of nodes looked through =", node_count)
@@ -34,3 +35,20 @@ class Run:
             if fox_won or hen_won:
                 break
         print("Someone won, game ended")
+
+def get_data(game, ai):
+    g1 , c1 = ai.get_best_move(2, game, with_parallel=False, with_alpha_beta_pruning=True)
+    g2 , c2 = ai.get_best_move(4, game, with_parallel=False, with_alpha_beta_pruning=True)
+    compare_game_states(g1, g2)
+    print("Amount of nodes looked through =", c1)
+    print("Amount of nodes looked through =", c2)
+
+def compare_game_states(game1, game2):
+    for row in range(0, 7):
+        for col in range(0, 7):
+            if game1.board.slots[row][col] == None:
+                continue
+            if game1.board.slots[row][col].type != game2.board.slots[row][col].type:
+                print("Not equal at row:", row, "col:", col)
+                return False
+    return True
