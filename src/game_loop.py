@@ -2,7 +2,9 @@ from look_ahead_ai.ai import AI
 from window import Window
 import time
 import matplotlib.pyplot as plt
+from prettytable import PrettyTable
 
+MAX_DEPTH = 5
 
 class Run:
     def __init__(self, game):
@@ -39,8 +41,21 @@ class Run:
             if fox_won or hen_won:
                 break
         
-        for depth in range(1, 2):
-            plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[0][depth-1][1] for data in plot_data], label='No Pruning', linestyle='solid')
+        # Create table with headers
+        headers = ["Move"] + [f"Depth {i} vs Max Depth" for i in range(1, MAX_DEPTH)]
+        table = PrettyTable(headers)
+
+        # Add rows to the table
+        for i, data in enumerate(plot_data):
+            move_number = i*2 + 1
+            row = [move_number] + data[2]  # Use the comparison results from get_data
+            table.add_row(row)
+
+        # Print the table
+        print(table)
+
+        for depth in range(1, MAX_DEPTH+1):
+            #plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[0][depth-1][1] for data in plot_data], label='No Pruning', linestyle='solid')
             plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[1][depth-1][1] for data in plot_data], label='Alpha-Beta Pruning', linestyle='dashed')
 
         plt.xlabel('Turn')
@@ -57,11 +72,13 @@ def get_data(game, ai):
     With/without alpha beta pruning
     With/without variable depth
     """
+
     normal_list = []
     alpha_beta_list = []
-    for i in range(4, 5):
-        g,c,b = get_data_from_ai(i, game, ai, False, False)
-        normal_list.append((g,c,b))
+
+    for i in range(1, MAX_DEPTH+1):
+        #g,c,b = get_data_from_ai(i, game, ai, False, False)
+        #normal_list.append((g,c,b))
         g,c,b = get_data_from_ai(i, game, ai, False, True)
         alpha_beta_list.append((g,c,b))
     
@@ -70,7 +87,11 @@ def get_data(game, ai):
         print("Amount of nodes looked through =", calc[1])
         print("Max Eval =", calc[2])
 
-    return normal_list, alpha_beta_list
+    comparison_results = []
+    for i in range(MAX_DEPTH - 1):
+        comparison_results.append("YES" if compare_game_states(alpha_beta_list[i][0], alpha_beta_list[-1][0]) else "NO")
+    
+    return normal_list, alpha_beta_list, comparison_results
 
 
 
