@@ -25,7 +25,7 @@ class Run:
                 #if valid_move:
                 #    self.game.move(self.win.selected_pos, endPos)
                 #t0 = time.time()
-                self.game, node_count = ai.get_best_move(2, self.game, with_parallel=True, with_alpha_beta_pruning=True)
+                self.game, node_count = ai.get_best_move(2, self.game, with_parallel=False, with_alpha_beta_pruning=True)
                 #t1 = time.time()
                 #print("-- AI has finished thinking --")
                 #print("Amount of nodes looked through =", node_count)

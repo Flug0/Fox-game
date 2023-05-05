@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="80273a57-3156-4e52-b9e5-4f324db2b855" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game_loop.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game_loop.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/look_ahead_ai/ai.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/look_ahead_ai/ai.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/look_ahead_ai/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/look_ahead_ai/node.py" afterDir="false" />
-    </list>
+    <list default="true" id="80273a57-3156-4e52-b9e5-4f324db2b855" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,10 +20,10 @@
   <component name="ProjectId" id="2LQeSNSxSy7Alz6rlm2t4w9QI74" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
@@ -67,9 +61,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="/usr/local/bin/python3.9" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main.py" />
@@ -91,6 +85,7 @@
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -103,78 +98,6 @@
       <updated>1675807733202</updated>
     </task>
     <servers />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1675807923483">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1675807923483" />
-    <state x="825" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1679522418296">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="825" y="31" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1678198132090" />
-    <state x="825" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1679522418296" />
-    <state x="1060" y="455" key="FileChooserDialogImpl" timestamp="1675807907812">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1675807907812" />
-    <state width="2539" height="216" key="GridCell.Tab.0.bottom" timestamp="1683150830043">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="1899" height="463" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1679590368199" />
-    <state width="2539" height="481" key="GridCell.Tab.0.bottom/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679944408565" />
-    <state width="2539" height="216" key="GridCell.Tab.0.bottom/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1683150830043" />
-    <state width="2539" height="216" key="GridCell.Tab.0.center" timestamp="1683150830043">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="1899" height="463" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1679590368199" />
-    <state width="2539" height="481" key="GridCell.Tab.0.center/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679944408564" />
-    <state width="2539" height="216" key="GridCell.Tab.0.center/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1683150830043" />
-    <state width="2539" height="216" key="GridCell.Tab.0.left" timestamp="1683150830042">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="1899" height="463" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1679590368199" />
-    <state width="2539" height="481" key="GridCell.Tab.0.left/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679944408564" />
-    <state width="2539" height="216" key="GridCell.Tab.0.left/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1683150830042" />
-    <state width="2539" height="216" key="GridCell.Tab.0.right" timestamp="1683150830043">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="1899" height="463" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1679590368199" />
-    <state width="2539" height="481" key="GridCell.Tab.0.right/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679944408565" />
-    <state width="2539" height="216" key="GridCell.Tab.0.right/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1683150830043" />
-    <state width="2539" height="393" key="GridCell.Tab.1.bottom" timestamp="1679760662434">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2539" height="393" key="GridCell.Tab.1.bottom/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679760662434" />
-    <state width="2539" height="393" key="GridCell.Tab.1.bottom/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1679529068331" />
-    <state width="2539" height="393" key="GridCell.Tab.1.center" timestamp="1679760662434">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2539" height="393" key="GridCell.Tab.1.center/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679760662434" />
-    <state width="2539" height="393" key="GridCell.Tab.1.center/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1679529068331" />
-    <state width="2539" height="393" key="GridCell.Tab.1.left" timestamp="1679760662434">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2539" height="393" key="GridCell.Tab.1.left/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679760662434" />
-    <state width="2539" height="393" key="GridCell.Tab.1.left/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1679529068331" />
-    <state width="2539" height="393" key="GridCell.Tab.1.right" timestamp="1679760662434">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="2539" height="393" key="GridCell.Tab.1.right/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679760662434" />
-    <state width="2539" height="393" key="GridCell.Tab.1.right/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1679529068331" />
-    <state width="1288" height="708" key="XDebugger.FullValuePopup" timestamp="1676984160563">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state width="1288" height="708" key="XDebugger.FullValuePopup/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1676984160563" />
-    <state x="976" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1683148978674">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="976" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1679936459883" />
-    <state x="976" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400/2560.360.1920.1040/-1920.355.1920.1040@0.0.2560.1400" timestamp="1683148978674" />
-    <state x="594" y="228" key="refactoring.ChangeSignatureDialog" timestamp="1678796173562">
-      <screen x="0" y="0" width="2560" height="1400" />
-    </state>
-    <state x="594" y="228" key="refactoring.ChangeSignatureDialog/0.0.2560.1400/-1920.355.1920.1040/2560.360.1920.1040@0.0.2560.1400" timestamp="1678796173562" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
