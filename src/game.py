@@ -90,6 +90,7 @@ class Game():
                 self.board.slots[doubleJumpY][doubleJumpX].type == "Empty":
             self.did_capture = True
             self.capturePos = [endY, endX]
+            self.next_players_turn = "Hen"
             return True, [doubleJumpY, doubleJumpX]
         self.did_capture = False
         self.next_players_turn = "Hen"
