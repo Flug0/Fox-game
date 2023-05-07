@@ -45,6 +45,8 @@ class Window():
 
 
     def draw_board(self, board):
+        # Draw hens nest
+        pygame.draw.rect(self.win, (255, 255, 204), (self.width/2-self.slot_spacing, self.height/2+self.slot_spacing, self.slot_spacing*2, self.slot_spacing*2))
         # Draw lines
         self.draw_lines()
         # Draw positions
