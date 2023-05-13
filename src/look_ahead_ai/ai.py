@@ -40,7 +40,6 @@ class AI:
                 best_evaluation, count = self.minimax_no_pruning(node, depth, 0)
         
         for child in node.children:
-            print(child.evaluation)
             if child.evaluation == best_evaluation:
                 return child.game, count, best_evaluation
         raise Exception("No best move")
@@ -66,12 +65,11 @@ class AI:
             maxEvaluation = float('-inf')
             if depth == self.max_depth:  # create processes only for top level calls
                 with multiprocessing.Pool() as pool:
-                    print(len(node.children))
                     results = [pool.apply_async(self.minimax_ab_prune_helper, (child, depth - 1, counter+1, alpha, beta)) for child in node.children]
                     for child, result in zip(node.children, results):
-                        evaluation, counter = result.get()
+                        evaluation, new_counter = result.get()
+                        counter += new_counter
                         child.evaluation = evaluation  # Manually update evaluation for each child
-                        print("Evaluation:", evaluation)
                         if node.game.foxs_turn:
                             minEvaluation = min(minEvaluation, evaluation)
                             beta = min(beta, minEvaluation)
@@ -110,12 +108,11 @@ class AI:
             maxEvaluation = float('-inf')
             if depth == self.max_depth:  # create processes only for top level calls
                 with multiprocessing.Pool() as pool:
-                    print(len(node.children))
                     results = [pool.apply_async(self.minimax_no_prune_helper, (child, depth - 1, counter+1)) for child in node.children]
                     for child, result in zip(node.children, results):
-                        evaluation, counter = result.get()
+                        evaluation, new_counter = result.get()
+                        counter += new_counter
                         child.evaluation = evaluation  # Manually update evaluation for each child
-                        print("Evaluation:", evaluation)
                         if node.game.foxs_turn:
                             minEvaluation = min(minEvaluation, evaluation)
                         else:
