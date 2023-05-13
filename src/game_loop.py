@@ -4,6 +4,7 @@ import time
 import matplotlib.pyplot as plt
 from prettytable import PrettyTable
 
+
 MAX_DEPTH = 5
 
 class Run:
@@ -19,50 +20,38 @@ class Run:
         plot_data = []
 
         while True:
-            #self.game.check_if_fox_trapped() # Check if fox is trapped
             self.win.update(self.game.board)
             if not self.game.foxs_turn:
-                #valid_move, endPos = self.game.check_valid_move(self.win.selected_pos, self.win.direction)
-                #if valid_move:
-                #    self.game.move(self.win.selected_pos, endPos)
-                self.game, _, _ = ai.get_best_move(2, self.game, with_parallel=False, with_alpha_beta_pruning=True)
+
+                self.game, _, _ = ai.get_best_move(4, self.game, with_parallel=True, with_alpha_beta_pruning=False)
             else:
-                #valid_move, endPos = self.game.check_valid_move(self.win.selected_pos, self.win.direction)
-                #if valid_move:
-                #    self.game.move(self.win.selected_pos, endPos)
-                #t0 = time.time()
-                plot_data.append(get_data(self.game, ai))
-                self.game, _, _ = ai.get_best_move(2, self.game, with_parallel=False, with_alpha_beta_pruning=True)
-                #t1 = time.time()
-                #print("-- AI has finished thinking --")
-                #print("Amount of nodes looked through =", node_count)
-                #print("Time for AI to think:", t1-t0)
+                #plot_data.append(get_data(self.game, ai))
+                game2 = self.game.copy()
+
+                start_time = time.time()
+                self.game, _, b = ai.get_best_move(3, self.game, with_parallel=False, with_alpha_beta_pruning=False)
+                end_time = time.time()
+                print("Time for NON-parallel AI to think:", end_time-start_time)
+
+                start_time = time.time()
+                game2, _, b2 = ai.get_best_move(4, game2, with_parallel=True, with_alpha_beta_pruning=False)
+                end_time = time.time()
+                print("Time for parallel AI to think:", end_time-start_time)
+
+                if compare_game_states(self.game, game2):
+                    print("Games are equal")
+                else:
+                    print("Games are not equal")
+                    print("BEST EVAL NO PARALLEL =", b)
+                    print("BEST EVAL PARALLEL =", b2)
+
             fox_won, hen_won = self.game.check_win()
             if fox_won or hen_won:
                 break
         
-        # Create table with headers
-        headers = ["Move"] + [f"Depth {i} vs Max Depth" for i in range(1, MAX_DEPTH)]
-        table = PrettyTable(headers)
+        #create_table(plot_data)
 
-        # Add rows to the table
-        for i, data in enumerate(plot_data):
-            move_number = i*2 + 1
-            row = [move_number] + data[2]  # Use the comparison results from get_data
-            table.add_row(row)
-
-        # Print the table
-        print(table)
-
-        for depth in range(1, MAX_DEPTH+1):
-            #plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[0][depth-1][1] for data in plot_data], label='No Pruning', linestyle='solid')
-            plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[1][depth-1][1] for data in plot_data], label='Alpha-Beta Pruning', linestyle='dashed')
-
-        plt.xlabel('Turn')
-        plt.ylabel('Number of Nodes Searched')
-        plt.title('Nodes Searched, Alpha-Beta Pruning vs No Pruning, Depth 4')
-        plt.legend()
-        plt.show()
+        #create_plot(plot_data)
 
         print("Someone won, game ended")
 
@@ -88,12 +77,58 @@ def get_data(game, ai):
         print("Max Eval =", calc[2])
 
     comparison_results = []
-    for i in range(MAX_DEPTH - 1):
-        comparison_results.append("YES" if compare_game_states(alpha_beta_list[i][0], alpha_beta_list[-1][0]) else "NO")
+    for j in range(MAX_DEPTH):
+        temp = []
+        for i in range(j+1):
+            temp.append(True if compare_game_states(alpha_beta_list[i][0], alpha_beta_list[j][0]) else False)
+        comparison_results.append(temp)
     
     return normal_list, alpha_beta_list, comparison_results
 
+def create_plot(plot_data):
+    depth_stats = [[0 for _ in range(MAX_DEPTH-(MAX_DEPTH-i)+1)] for i in range(MAX_DEPTH)]
+    for data in plot_data:
+        for j, lists in enumerate(data[2]):
+            for i, elem in enumerate(lists):
+                if elem:
+                    depth_stats[j][i] += 1
 
+    print(depth_stats)
+    depth_stats = [[round(elem/len(plot_data),4) for elem in sublist] for sublist in depth_stats]
+    print(depth_stats)
+    for i, list in enumerate(depth_stats):
+        print(f"Depth {i+1} to {len(list)} vs Max Depth: {len(list)}")
+        print(list)
+    print(len(plot_data))
+
+    for depth in range(0, MAX_DEPTH):
+        #plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[0][depth][1] for data in plot_data], label='No Pruning', linestyle='solid')
+        plt.plot([i for i in range(1,len(plot_data)*2,2)],[data[1][depth][1] for data in plot_data], label='Alpha-Beta Pruning', linestyle='dashed')
+    
+
+    plt.xlabel('Turn')
+    plt.ylabel('Number of Nodes Searched')
+    plt.title('Nodes Searched, Alpha-Beta Pruning vs No Pruning, Depth 4')
+    plt.legend()
+    plt.show()
+
+def create_table(plot_data):
+    # Create table with headers
+    tables = []
+    for depth in range(1, MAX_DEPTH+1):
+        header = ["Move"] + [f"Depth {i} vs depth {depth}" for i in range(1, depth+1)]
+        tables.append(PrettyTable(header))
+
+    # Add rows to the table
+    for i, lists in enumerate(plot_data):
+        move_number = i*2 + 1
+        for j, list in enumerate(lists[2]):
+            row = [move_number] + list
+            tables[j].add_row(row)
+
+    # Print the table
+    for table in tables:
+        print(table)
 
 def get_data_from_ai(depth, game, ai, parallel, alpha_beta):
     g, c, b = ai.get_best_move(depth, game, parallel, alpha_beta)
