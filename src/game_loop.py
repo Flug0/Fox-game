@@ -23,20 +23,20 @@ class Run:
             self.win.update(self.game.board)
             if not self.game.foxs_turn:
 
-                self.game, _, _ = ai.get_best_move(4, self.game, with_parallel=True, with_alpha_beta_pruning=False)
+                self.game, _, _ = ai.get_best_move(2, self.game, with_parallel=True, with_alpha_beta_pruning=False)
             else:
                 #plot_data.append(get_data(self.game, ai))
                 game2 = self.game.copy()
 
                 start_time = time.time()
-                self.game, _, b = ai.get_best_move(3, self.game, with_parallel=False, with_alpha_beta_pruning=False)
+                self.game, _, b = ai.get_best_move(5, self.game, with_parallel=True, with_alpha_beta_pruning=False)
                 end_time = time.time()
-                print("Time for NON-parallel AI to think:", end_time-start_time)
+                print("Time for Parallel, NO PRUNE, AI to think:", end_time-start_time)
 
                 start_time = time.time()
-                game2, _, b2 = ai.get_best_move(4, game2, with_parallel=True, with_alpha_beta_pruning=False)
+                game2, _, b2 = ai.get_best_move(6, game2, with_parallel=True, with_alpha_beta_pruning=True)
                 end_time = time.time()
-                print("Time for parallel AI to think:", end_time-start_time)
+                print("Time for Parallel, AB-PRUNE, AI to think:", end_time-start_time)
 
                 if compare_game_states(self.game, game2):
                     print("Games are equal")

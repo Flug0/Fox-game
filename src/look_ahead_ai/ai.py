@@ -48,12 +48,57 @@ class AI:
 
 
     def get_best_move_parallel(self, depth, node, with_alpha_beta_pruning):
-        # Create an executor
+        minInt = float("-inf")
+        maxInt = float("inf")
         if with_alpha_beta_pruning:
-            pass
+            return self.minimax_ab_prune_helper(node, depth, 0, minInt, maxInt)
         else:
             return self.minimax_no_prune_helper(node, depth, 0)
         raise Exception("No best move")
+    
+    def minimax_ab_prune_helper(self, node, depth, counter, alpha, beta):
+        if depth == 0 or node.game.someone_has_won():  # or node is a terminal node
+            node.evaluation = Heuristics(node.game).points
+        else:
+            for child in node.children:
+                child.add_children()
+            minEvaluation = float('inf')
+            maxEvaluation = float('-inf')
+            if depth == self.max_depth:  # create processes only for top level calls
+                with multiprocessing.Pool() as pool:
+                    print(len(node.children))
+                    results = [pool.apply_async(self.minimax_ab_prune_helper, (child, depth - 1, counter+1, alpha, beta)) for child in node.children]
+                    for child, result in zip(node.children, results):
+                        evaluation, counter = result.get()
+                        child.evaluation = evaluation  # Manually update evaluation for each child
+                        print("Evaluation:", evaluation)
+                        if node.game.foxs_turn:
+                            minEvaluation = min(minEvaluation, evaluation)
+                            beta = min(beta, minEvaluation)
+                        else:
+                            maxEvaluation = max(maxEvaluation, evaluation)
+                            alpha = max(alpha, maxEvaluation)
+                        if beta <= alpha:  # Pruning condition
+                            break
+                    # Shut down the pool
+                    pool.close()
+                    pool.join()
+                    node.evaluation = minEvaluation if node.game.foxs_turn else maxEvaluation
+                    
+            else:  # for non-top level calls, execute the recursion sequentially
+                for child in node.children:
+                    evaluation, counter = self.minimax_ab_prune_helper(child, depth - 1, counter+1, alpha, beta)
+                    if node.game.foxs_turn:
+                        minEvaluation = min(minEvaluation, evaluation)
+                        beta = min(beta, minEvaluation)
+                    else:
+                        maxEvaluation = max(maxEvaluation, evaluation)
+                        alpha = max(alpha, maxEvaluation)
+                    if beta <= alpha:  # Pruning condition
+                        break
+                node.evaluation = minEvaluation if node.game.foxs_turn else maxEvaluation
+        return node.evaluation, counter
+
 
     def minimax_no_prune_helper(self, node, depth, counter):
         if depth == 0 or node.game.someone_has_won():  # or node is a terminal node
